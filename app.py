@@ -12,10 +12,10 @@ ENV = 'dev'
 if ENV == 'dev':
   app.debug = True
   #username:password@localhost/databasename
-  app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:sayunlng@localhost/rkaligner'
+  app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:sayunlng@localhost/rkalignerv2'
 else:
   app.debug = False
-  app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:sayunlng@localhost/rkaligner'
+  app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:sayunlng@localhost/rkalignerv2'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -106,7 +106,7 @@ def registration_submit():
       data = Users(username, email, password)
       db.session.add(data)
       db.session.commit()
-    return render_template('index.html', message='Registration success!')
+    return jsonify({ "error": 'Duplicate username/email found' })
   
 @app.route('/login_submit', methods=['POST'])
 def login_submit():
@@ -121,7 +121,7 @@ def login_submit():
       session['username'] = email
       return jsonify({"user": email})
     else:
-      return jsonify({ "error": email })
+      return jsonify({ "error": 'User not found.' })
 
   
 @app.route('/import_file', methods=['POST'])

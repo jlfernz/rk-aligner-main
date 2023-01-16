@@ -31,11 +31,15 @@ function handleSubmitRegistration() {
         password: password,
       }),
       headers: { 'Content-Type': 'application/json' },
-    }).then(function (response) {
-      if (response.ok) {
+    })
+    .then((res) => res.json())
+    .then(function (response) {
+      if (response.error) {
+        alert(response.error)
+      } else {
         window.location.href = '/login';
       }
-    });
+    }).catch((error) => alert(error.error))
 
   }
     

@@ -463,7 +463,14 @@ function handleLogin() {
     }).then((res) => res.json())
     .then((response) => {
       localStorage.setItem('user', response.user)
-    }).then(() => window.location.href = '/importer')
+      return response
+    }).then((res) => {
+      if (res.error) {
+        alert(res.error)
+      } else {
+        window.location.href = '/importer'
+      }
+    })
     .catch(err => console.log('error', err));
   }
 }
